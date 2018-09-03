@@ -13,6 +13,10 @@ RUN cp /bitzeny-2.0.1/bin/bitzenyd /usr/local/bin/
 
 RUN git clone --depth 1 https://github.com/BitzenyCoreDevelopers/insight-ui-bitzeny.git
 RUN git clone --depth 1 https://github.com/BitzenyCoreDevelopers/insight-api-bitzeny.git
+
+COPY boot.sh /usr/bin/boot-insight.sh
+RUN chmod +x /usr/bin/boot-insight.sh
+
 WORKDIR /insight-api-bitzeny
 RUN npm install
 WORKDIR /insight-ui-bitzeny
@@ -26,6 +30,6 @@ ENV INSIGHT_PORT=3000
 
 EXPOSE 3000
 
-CMD rm ~/.insight-bitzeny -rf;bitzenyd -daemon -bind=0.0.0.0 -checkblocks=24 -checklevel=0 -dbcache=64 -disablewallet -listen -maxconnections=64 -par=2 -port=9253 -rpcallowip=127.0.0.1 -rpcbind=127.0.0.1 -rpcport=9252 -server -whitelist=127.0.0.1 -rpcpassword=password -rpcuser=user -addnode=121.109.144.238 -addnode=153.215.211.52 -addnode=203.152.216.77;sleep 3;node /insight-api-bitzeny/insight.js
+CMD /usr/bin/boot-insight.sh
 
 
